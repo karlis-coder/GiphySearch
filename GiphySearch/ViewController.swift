@@ -51,7 +51,7 @@ class ViewController: UIViewController {
         // Clear previous data
         currentPage = nil
         gifs = []
-        gifCache.clear()
+        GifCache.shared.clear()
         
         // lets search again from first page
         searchGifs(for: searchText, page: 1)

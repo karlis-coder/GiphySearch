@@ -51,6 +51,11 @@ class GifNetwork {
 }
 
 class GifCache {
+    
+    static var shared = GifCache()
+    
+    private init() { }
+    
     private var items = [String: UIImage]()
     
     func setGif(url: String, image: UIImage) {
@@ -65,7 +70,3 @@ class GifCache {
         items.removeAll()
     }
 }
-
-// Create global gif cache object
-
-let gifCache = GifCache()

@@ -27,11 +27,11 @@ class GifCell: UICollectionViewCell {
             DispatchQueue.global(qos: .default).async {
                 // Fetch gif on background and set it in cache
                 let gifURL = self.gif!.getGifURL()
-                guard let image = gifCache.getGif(url: gifURL) ?? UIImage.gif(url: gifURL) else { return }
+                guard let image = GifCache.shared.getGif(url: gifURL) ?? UIImage.gif(url: gifURL) else { return }
                 
                 DispatchQueue.main.async {
                     // UI thread
-                    gifCache.setGif(url: gifURL, image: image)
+                    GifCache.shared.setGif(url: gifURL, image: image)
 
                     guard gifURL == self.gif?.getGifURL() else { return }
                     

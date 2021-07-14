@@ -9,17 +9,23 @@ import Foundation
 import UIKit
 
 class GifNetwork {
-    let apiKey = "R6Ygl776KjZaeXVuFP3QHQTPGCFjmDGP"
     
-    func fetchGifs(searchTerm: String, page: Int, completion: @escaping (_ response: GifArray?) -> Void) {
-        // Create a GET url request
+    private let apiKey = "R6Ygl776KjZaeXVuFP3QHQTPGCFjmDGP"
+    private let limit = 20
+    
+    func fetchGifs(
+        searchTerm: String,
+        page: Int,
+        completion: @escaping (_ response: GifArray?) -> Void
+    ) {
         let url = urlBuilder(searchTerm: searchTerm, page: page)
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let err = error {
-                print("Error fetching from Giphy: ", err.localizedDescription)
+        let request = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error fetching from Giphy: ", error.localizedDescription)
             }
+            
             do {
                 // Decode the data into array of Gifs
                 DispatchQueue.main.async {
@@ -30,12 +36,9 @@ class GifNetwork {
         }.resume()
     }
     
-    // Returns url with API key and search term
-    
-    let limit = 20
-    
     func urlBuilder(searchTerm: String, page: Int) -> URL {
         let apikey = apiKey
+        
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.giphy.com"
@@ -46,27 +49,7 @@ class GifNetwork {
             URLQueryItem(name: "limit", value: "\(limit)"),
             URLQueryItem(name: "offset", value: "\(page * limit)")
         ]
+        
         return components.url!
-    }
-}
-
-class GifCache {
-    
-    static var shared = GifCache()
-    
-    private init() { }
-    
-    private var items = [String: UIImage]()
-    
-    func setGif(url: String, image: UIImage) {
-        items[url] = image
-    }
-    
-    func getGif(url: String) -> UIImage? {
-        items[url]
-    }
-    
-    func clear() {
-        items.removeAll()
     }
 }

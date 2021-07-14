@@ -17,6 +17,7 @@
 		514E07F3268CB50900B8D027 /* GifCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 514E07F2268CB50900B8D027 /* GifCell.swift */; };
 		514E07F5268CBB1300B8D027 /* GifNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 514E07F4268CBB1300B8D027 /* GifNetwork.swift */; };
 		514E07F7268CBD2500B8D027 /* Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 514E07F6268CBD2500B8D027 /* Gif.swift */; };
+		72606FBA269F312C00593FFE /* GifCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72606FB9269F312C00593FFE /* GifCache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		514E07F2268CB50900B8D027 /* GifCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifCell.swift; sourceTree = "<group>"; };
 		514E07F4268CBB1300B8D027 /* GifNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifNetwork.swift; sourceTree = "<group>"; };
 		514E07F6268CBD2500B8D027 /* Gif.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gif.swift; sourceTree = "<group>"; };
+		72606FB9269F312C00593FFE /* GifCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 				514E07F4268CBB1300B8D027 /* GifNetwork.swift */,
 				514E07F0268CB34F00B8D027 /* GifExtension.swift */,
 				514E07F2268CB50900B8D027 /* GifCell.swift */,
+				72606FB9269F312C00593FFE /* GifCache.swift */,
 				514E07E2268CA80300B8D027 /* Main.storyboard */,
 				514E07E5268CA80500B8D027 /* Assets.xcassets */,
 				514E07E7268CA80500B8D027 /* LaunchScreen.storyboard */,
@@ -149,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72606FBA269F312C00593FFE /* GifCache.swift in Sources */,
 				514E07F1268CB34F00B8D027 /* GifExtension.swift in Sources */,
 				514E07E1268CA80300B8D027 /* ViewController.swift in Sources */,
 				514E07DD268CA80300B8D027 /* AppDelegate.swift in Sources */,

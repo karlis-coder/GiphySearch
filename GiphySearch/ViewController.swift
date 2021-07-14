@@ -9,19 +9,19 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet private var collectionView: UICollectionView!
+    @IBOutlet private var searchBar: UISearchBar!
     
-    var network = GifNetwork()
-    var gifs = [Gif]()
-    var currentPage: Int?
+    private var network = GifNetwork()
+    private var gifs = [Gif]()
+    private var currentPage: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        
     }
-    func setup() {
+    
+    private func setup() {
         collectionView.dataSource = self
         collectionView.delegate = self
         // Search bar
@@ -31,23 +31,23 @@ class ViewController: UIViewController {
     }
     
     //Fetch gifs based on search term and populate tableview
-    func searchGifs(for searchText: String, page: Int) {
+    private func searchGifs(for searchText: String, page: Int) {
         guard currentPage != page else { return }
         
-        network.fetchGifs(searchTerm: searchText, page: page) { gifArray in
-            if gifArray != nil {
-                self.currentPage = page
-                self.gifs += gifArray!.gifs
-                self.collectionView.reloadData()
+        network.fetchGifs(searchTerm: searchText, page: page) { [weak self] gifArray in
+            if let gifArray = gifArray {
+                self?.currentPage = page
+                self?.gifs += gifArray.gifs
+                self?.collectionView.reloadData()
             }
             
             if page == 1 {
-                self.collectionView.setContentOffset(.zero, animated: false)
+                self?.collectionView.setContentOffset(.zero, animated: false)
             }
         }
     }
     
-    func searchGifs(for searchText: String) {
+    private func searchGifs(for searchText: String) {
         // Clear previous data
         currentPage = nil
         gifs = []
@@ -58,44 +58,72 @@ class ViewController: UIViewController {
     }
 }
 
-// MARK: - Search bar functions
+// MARK: - UISearchTextFieldDelegate
+
 extension ViewController: UISearchTextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
-        if textField.text != nil {
-            searchGifs(for: textField.text!)
+        if let text = textField.text {
+            searchGifs(for: text)
         }
         
         return true
     }
 }
 
-// MARK: - CollectionView functions
+// MARK: - UICollectionViewDataSource
 
-extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension ViewController: UICollectionViewDataSource {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
         gifs.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gifCell", for: indexPath) as! GifCell
-        cell.gif = gifs[indexPath.row]
-        return cell
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gifCell", for: indexPath) as? GifCell {
+            cell.gif = gifs[indexPath.row]
+            
+            return cell
+        }
+        
+        return UICollectionViewCell()
     }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
         // We've scrolled to bottom - fetch next page
-        if indexPath.row == gifs.count - 1, let currentPage = currentPage {
-            searchGifs(for: searchBar.text!, page: currentPage + 1)
+        if indexPath.row == gifs.count - 1,
+           let text = searchBar.text,
+           let currentPage = currentPage {
+            searchGifs(for: text, page: currentPage + 1)
         }
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
+
 extension ViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         let padding: CGFloat = 20
         let collectionViewSize = collectionView.frame.size.width - padding
+        
         return CGSize(width: collectionViewSize / 2, height: collectionViewSize / 2)
     }
 }

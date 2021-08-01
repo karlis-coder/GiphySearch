@@ -9,6 +9,19 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="GmW-pc-ZEY">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vos-qo-Xwc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <navigationController id="7co-R2-heK" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="brp-TS-dB7">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="-1549" y="34"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -24,7 +37,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="pwe-4g-tlm">
                                 <rect key="frame" x="0.0" y="108" width="414" height="788"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3by-a1-1LW">
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="3by-a1-1LW">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -38,13 +51,24 @@
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="DaS-Ic-OKA">
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="DaS-Ic-OKA">
                                                     <rect key="frame" x="54" y="54" width="20" height="20"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </activityIndicatorView>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nb0-vY-F85">
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                </imageView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="nb0-vY-F85" firstAttribute="leading" secondItem="zh2-bF-U2k" secondAttribute="leading" id="7hN-rX-seN"/>
+                                                <constraint firstItem="DaS-Ic-OKA" firstAttribute="centerY" secondItem="zh2-bF-U2k" secondAttribute="centerY" id="FhB-79-Hoq"/>
+                                                <constraint firstAttribute="trailing" secondItem="nb0-vY-F85" secondAttribute="trailing" id="Sdz-dI-hg2"/>
+                                                <constraint firstAttribute="bottom" secondItem="nb0-vY-F85" secondAttribute="bottom" id="fjY-K4-h34"/>
+                                                <constraint firstItem="DaS-Ic-OKA" firstAttribute="centerX" secondItem="zh2-bF-U2k" secondAttribute="centerX" id="rUa-BG-TK4"/>
+                                                <constraint firstItem="nb0-vY-F85" firstAttribute="top" secondItem="zh2-bF-U2k" secondAttribute="top" id="yRG-ee-AQO"/>
+                                            </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
+                                            <outlet property="gifImage" destination="nb0-vY-F85" id="IlK-0J-Vkv"/>
                                             <outlet property="loader" destination="DaS-Ic-OKA" id="oL8-iY-KSU"/>
                                         </connections>
                                     </collectionViewCell>

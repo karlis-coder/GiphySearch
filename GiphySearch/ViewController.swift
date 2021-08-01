@@ -47,11 +47,14 @@ class ViewController: UIViewController {
         }
     }
     
-    func searchGifs(for searchText: String) {
-        // Clear previous data
+    func clearPreviousData() {
         currentPage = nil
         gifs = []
         gifCache.clear()
+    }
+    
+    func searchGifs(for searchText: String) {
+        clearPreviousData()
         
         // lets search again from first page
         searchGifs(for: searchText, page: 1)
@@ -94,8 +97,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let padding: CGFloat = 20
-        let collectionViewSize = collectionView.frame.size.width - padding
+        let collectionViewSize = collectionView.frame.size.width
         return CGSize(width: collectionViewSize / 2, height: collectionViewSize / 2)
     }
 }

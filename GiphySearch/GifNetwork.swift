@@ -23,8 +23,9 @@ class GifNetwork {
             do {
                 // Decode the data into array of Gifs
                 DispatchQueue.main.async {
-                    let object = try! JSONDecoder().decode(GifArray.self, from: data!)
-                    completion(object)
+                    if let data = data, let object = try? JSONDecoder().decode(GifArray.self, from: data) {
+                        completion(object)
+                    }
                 }
             }
         }.resume()

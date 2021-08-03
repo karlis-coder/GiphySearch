@@ -11,22 +11,19 @@ import UIKit
 class GifNetwork {
     let apiKey = "R6Ygl776KjZaeXVuFP3QHQTPGCFjmDGP"
     
-    func fetchGifs(searchTerm: String, page: Int, completion: @escaping (_ response: GifArray?) -> Void) {
+    func fetchGifs(searchTerm: String, page: Int, completion: @escaping (_ response: Result<GifArray, Error>) -> Void) {
         // Create a GET url request
         let url = urlBuilder(searchTerm: searchTerm, page: page)
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let err = error {
-                print("Error fetching from Giphy: ", err.localizedDescription)
+            if let error = error {
+                print("Error fetching from Giphy: ", error.localizedDescription)
+                completion(.failure(error))
             }
-            do {
-                // Decode the data into array of Gifs
-                DispatchQueue.main.async {
-                    if let data = data, let object = try? JSONDecoder().decode(GifArray.self, from: data) {
-                        completion(object)
-                    }
-                }
+            // Decode the data into array of Gifs
+            if let data = data {
+                completion(Result { try JSONDecoder().decode(GifArray.self, from: data) })
             }
         }.resume()
     }

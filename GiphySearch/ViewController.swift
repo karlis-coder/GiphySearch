@@ -34,17 +34,39 @@ class ViewController: UIViewController {
     func searchGifs(for searchText: String, page: Int) {
         guard currentPage != page else { return }
         
-        network.fetchGifs(searchTerm: searchText, page: page) { gifArray in
-            if gifArray != nil {
-                self.currentPage = page
-                self.gifs += gifArray!.gifs
-                self.collectionView.reloadData()
-            }
-            
-            if page == 1 {
-                self.collectionView.setContentOffset(.zero, animated: false)
+        network.fetchGifs(searchTerm: searchText, page: page) { [weak self] results in
+            DispatchQueue.main.async {
+                switch results {
+                case .success(let gifArray): self?.showResults(gifArray: gifArray, page: page)
+                case .failure(let error): self?.handleError(error: error)
+                }
             }
         }
+    }
+    
+    private func showResults(gifArray: GifArray, page: Int) {
+        currentPage = page
+        gifs += gifArray.gifs
+        collectionView.reloadData()
+        
+        if page == 1 {
+            collectionView.setContentOffset(.zero, animated: false)
+        }
+    }
+    
+    private func handleError(error: Error) {
+        let alert = UIAlertController(
+            title: "Error",
+            message: error.localizedDescription,
+            preferredStyle: .alert
+        )
+        
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: { [weak self] _ in
+            self?.dismiss(animated: true)
+        })
+        
+        alert.addAction(okAction)
+        present(alert, animated: true)
     }
     
     func clearPreviousData() {

@@ -1,3 +1,6 @@
+// GifExtension taken from: https://github.com/MakeSchool-Tutorials/Giphy-Search-iOS/blob/master/assets.zip
+
+
 import UIKit
 import ImageIO
 
